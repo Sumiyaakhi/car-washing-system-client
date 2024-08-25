@@ -73,7 +73,7 @@ const Navbar = () => {
             </ul>
           </div>
           <Link to="/" className="ml-2 text-xl font-bold">
-            <img className="w-12 md:w-28 lg:w-48 " src={img} alt="" />
+            <img className="w-28 lg:w-48 " src={img} alt="" />
           </Link>
         </div>
         <div className="hidden lg:flex items-end space-x-6">

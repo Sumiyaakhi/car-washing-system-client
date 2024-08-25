@@ -8,6 +8,7 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import Error from "../pages/Error";
 import Service from "../pages/PublicPages/Service";
 import Booking from "../pages/PublicPages/Booking";
+import Home from "../pages/PublicPages/Home";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <Error />,
     children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
       {
         path: "service",
         element: <Service />,
