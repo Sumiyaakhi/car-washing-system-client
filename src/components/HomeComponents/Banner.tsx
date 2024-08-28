@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import img from "../../assets/images/banner.jpg";
 import BookingForm from "./BookingForm";
-import { PiGreaterThanBold } from "react-icons/pi";
 
 const Banner = () => {
   return (

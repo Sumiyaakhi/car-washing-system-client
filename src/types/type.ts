@@ -21,6 +21,7 @@ export type TUser = {
   name: string;
   email: string;
   phone: string;
+  img: string;
   role: string;
   password: string;
   address: string;
@@ -29,4 +30,11 @@ export type TUser = {
 export type TAutState = {
   user: null | object;
   token: null | string;
+};
+
+export type TService = {
+  id: number;
+  img: string;
+  name: string;
+  description: string;
 };

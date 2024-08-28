@@ -81,12 +81,17 @@ const Navbar = () => {
         </div>
         <div>
           <div className="hidden lg:flex border-[1px] border-gray-400 items-center  rounded-md">
-            <button className="px-5 py-2 hover:bg-hover hover:text-white font-bold rounded-s-md">
-              Sign In
-            </button>
-            <button className="py-2 px-5 hover:bg-hover bg-primary text-white font-bold rounded-e-md">
-              Sign Up
-            </button>
+            <Link to="/login">
+              <button className="px-5 py-2 hover:bg-hover hover:text-white font-bold rounded-s-md">
+                Sign In
+              </button>
+            </Link>
+            <Link to="/register">
+              {" "}
+              <button className="py-2 px-5 hover:bg-hover bg-primary text-white font-bold rounded-e-md">
+                Sign Up
+              </button>
+            </Link>
           </div>
           <div className="lg:hidden">
             <button className="py-2 px-3 hover:bg-hover bg-primary text-white font-bold rounded-md">
