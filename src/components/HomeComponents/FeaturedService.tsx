@@ -26,9 +26,9 @@ const FeaturedService = () => {
           Top Picks: Our Featured Services
         </h2>
         <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
-          {data.slice(0, 6).map((service: TService) => (
+          {data.slice(0, 6).map((service: TService, index: number) => (
             <div
-              key={service.id}
+              key={index}
               className="group relative bg-white rounded-lg shadow-md overflow-hidden"
             >
               <img

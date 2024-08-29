@@ -7,8 +7,8 @@ const Footer = () => {
         <aside>
           <img src={img} alt="" />
           <p>
-            GoWashMyCar is now servicing the entire <br /> Greater London area.
-            Please contact us with any questions.
+            Sparkle Wash Pro is now servicing the entire <br /> Greater
+            Bangladesh area. Please contact us with any questions.
           </p>
         </aside>
         <nav>

@@ -38,3 +38,7 @@ export type TService = {
   name: string;
   description: string;
 };
+export type TReview = {
+  review: string;
+  rating?: number;
+};

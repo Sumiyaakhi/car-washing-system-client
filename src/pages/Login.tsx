@@ -1,16 +1,19 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { setUser } from "../redux/features/auth/authSlice";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { TUser } from "../types";
 import { verifyToken } from "../utils/verifyToken";
+import Swal from "sweetalert2";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { handleSubmit, reset, register } = useForm<TUser>({
     defaultValues: {
-      email: "web@programming-hero.com",
-      password: "ph-password",
+      email: "sumiya.akhi793@gmail.com",
+      password: "akhi",
     },
   });
 
@@ -24,9 +27,21 @@ const Login: React.FC = () => {
       const user = verifyToken(token);
       dispatch(setUser({ user, token }));
 
+      if (user) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Log In successful",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+
+        const from = location.state?.from?.pathname || "/";
+        navigate(from, { replace: true });
+      }
+
       console.log("User:", user);
 
-      // Reset the form fields after submission
       reset();
     } catch (error) {
       console.error("Login failed:", error);

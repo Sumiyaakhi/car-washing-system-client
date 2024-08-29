@@ -1,8 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import img from "../../assets/icons/spark_wash_Logo.png";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logout } from "../../redux/features/auth/authSlice";
 
 const Navbar = () => {
-  // const [activeTab, setActiveTab] = useState("signin");
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   const navItem = (
     <>
       <li className="inline-block mx-2">
@@ -80,24 +87,37 @@ const Navbar = () => {
           <ul className="flex items-center space-x-6 text-lg">{navItem}</ul>
         </div>
         <div>
-          <div className="hidden lg:flex border-[1px] border-gray-400 items-center  rounded-md">
-            <Link to="/login">
-              <button className="px-5 py-2 hover:bg-hover hover:text-white font-bold rounded-s-md">
-                Sign In
+          {user ? (
+            <>
+              <button
+                onClick={handleLogout}
+                className="py-2 px-5 hover:bg-hover bg-primary text-white font-bold rounded-md"
+              >
+                Log out
               </button>
-            </Link>
-            <Link to="/register">
-              {" "}
-              <button className="py-2 px-5 hover:bg-hover bg-primary text-white font-bold rounded-e-md">
-                Sign Up
-              </button>
-            </Link>
-          </div>
-          <div className="lg:hidden">
-            <button className="py-2 px-3 hover:bg-hover bg-primary text-white font-bold rounded-md">
-              Sign Up
-            </button>
-          </div>
+            </>
+          ) : (
+            <>
+              <div className="hidden lg:flex border-[1px] border-gray-400 items-center  rounded-md">
+                <Link to="/login">
+                  <button className="px-5 py-2 hover:bg-hover hover:text-white font-bold rounded-s-md">
+                    Sign In
+                  </button>
+                </Link>
+                <Link to="/register">
+                  {" "}
+                  <button className="py-2 px-5 hover:bg-hover bg-primary text-white font-bold rounded-e-md">
+                    Sign Up
+                  </button>
+                </Link>
+              </div>
+              <div className="lg:hidden">
+                <button className="py-2 px-3 hover:bg-hover bg-primary text-white font-bold rounded-md">
+                  Sign Up
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
