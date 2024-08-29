@@ -1,8 +1,8 @@
 import { baseApi } from "../../api/baseApi";
 
 const serviceApi = baseApi.injectEndpoints({
-  endpoints: (buildre) => ({
-    getAllServices: buildre.query({
+  endpoints: (builder) => ({
+    getAllServices: builder.query({
       query: () => ({
         url: "/services",
         method: "GET",
@@ -11,14 +11,24 @@ const serviceApi = baseApi.injectEndpoints({
         return response.data;
       },
     }),
-    createAService: buildre.mutation({
+    createAService: builder.mutation({
       query: (data) => ({
         url: "/services",
         method: "POST",
         body: data,
       }),
     }),
+    getAServiceById: builder.query({
+      query: (id: string) => ({
+        url: `/services/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllServicesQuery, useCreateAServiceMutation } = serviceApi;
+export const {
+  useGetAllServicesQuery,
+  useCreateAServiceMutation,
+  useGetAServiceByIdQuery,
+} = serviceApi;

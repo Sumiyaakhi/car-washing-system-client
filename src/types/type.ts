@@ -33,10 +33,12 @@ export type TAutState = {
 };
 
 export type TService = {
-  id: number;
-  img: string;
+  _id: string;
   name: string;
+  img: string;
   description: string;
+  price: number;
+  duration: number;
 };
 export type TReview = {
   review: string;

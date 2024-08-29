@@ -10,6 +10,7 @@ import Service from "../pages/PublicPages/Service";
 import Booking from "../pages/PublicPages/Booking";
 import Home from "../pages/PublicPages/Home";
 import Reviews from "../pages/Reviews";
+import ServiceDetails from "../pages/PublicPages/ServiceDetails";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "service",
         element: <Service />,
+      },
+      {
+        path: "/services/:id",
+        element: <ServiceDetails />,
       },
 
       {
