@@ -9,6 +9,7 @@ import Error from "../pages/Error";
 import Service from "../pages/PublicPages/Service";
 import Booking from "../pages/PublicPages/Booking";
 import Home from "../pages/PublicPages/Home";
+import Reviews from "../pages/Reviews";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "booking",
         element: <Booking />,
+      },
+      {
+        path: "reviews",
+        element: <Reviews />,
       },
     ],
   },

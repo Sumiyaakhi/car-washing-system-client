@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
-import { useGetAllReviewsQuery } from "../../redux/features/user/review.api";
-import { useAppSelector } from "../../redux/hooks";
-import { TReview } from "../../types";
-import ReviewForm from "./ReviewForm";
+import { useAppSelector } from "../redux/hooks";
+import { useGetAllReviewsQuery } from "../redux/features/user/review.api";
+import { TReview } from "../types";
 
-const ReviewSection: React.FC = () => {
+const Reviews = () => {
   const { data: response, isLoading } = useGetAllReviewsQuery(undefined);
   const user = useAppSelector((state) => state.auth.user);
 
@@ -12,7 +11,7 @@ const ReviewSection: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center lg:py-32">
         <span className="loading loading-ring loading-xs"></span>
         <span className="loading loading-ring loading-sm"></span>
         <span className="loading loading-ring loading-md"></span>
@@ -31,16 +30,12 @@ const ReviewSection: React.FC = () => {
     reviews.length
   ).toFixed(1);
 
-  // Select the last two reviews
-  const lastTwoReviews = reviews.slice(-2);
-
   // Convert overall rating to an integer to handle the star display
   const fullStars = Math.floor(parseFloat(overallRating));
   const hasHalfStar = parseFloat(overallRating) - fullStars >= 0.5;
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <ReviewForm />
+    <div className="lg:py-24 md:py-16 max-w-7xl mx-auto">
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-6 text-primary mt-8">
         User Reviews
       </h2>
@@ -92,7 +87,7 @@ const ReviewSection: React.FC = () => {
       </div>
 
       <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-        {lastTwoReviews.map((review: TReview, index: number) => (
+        {reviews.map((review: TReview, index: number) => (
           <div
             key={index}
             className="p-6 bg-white shadow-lg rounded-lg border border-gray-200 flex flex-col md:flex-row items-start space-x-4 hover:shadow-xl transition-shadow duration-300 ease-in-out"
@@ -139,15 +134,8 @@ const ReviewSection: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="text-center my-5">
-        <Link to="/reviews">
-          <button className="text-xl font-bold  text-white bg-primary px-3 lg:px-9 py-2 lg:py-4 hover:bg-hover rounded-md">
-            See All Reviews
-          </button>
-        </Link>
-      </div>
     </div>
   );
 };
 
-export default ReviewSection;
+export default Reviews;
