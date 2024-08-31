@@ -104,41 +104,39 @@ const Service = () => {
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
-          {sortedServices
-            .slice(0, 6)
-            .map((service: TService, index: number) => (
-              <div
-                key={index}
-                className="group relative bg-white rounded-lg shadow-md overflow-hidden"
-              >
-                <img
-                  src={service.img}
-                  alt={service.name}
-                  className="w-full object-cover group-hover:opacity-75"
-                />
-                <div className="p-6">
-                  <h3 className="text-lg font-medium text-gray-900">
-                    {service.name}
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-600">
-                    {service.description}
-                  </p>
-                  <p className="mt-2 text-sm text-gray-600 font-bold">
-                    Price: ${service.price}
-                  </p>
-                  <p className="mt-2 text-sm text-gray-600">
-                    Duration: {service.duration} minutes
-                  </p>
-                  <div className="text-end">
-                    <Link to={`/services/${service._id}`}>
-                      <button className="btn bg-primary text-xl text-white hover:bg-hover">
-                        Details
-                      </button>
-                    </Link>
-                  </div>
+          {sortedServices.map((service: TService, index: number) => (
+            <div
+              key={index}
+              className="group relative bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src={service.img}
+                alt={service.name}
+                className="w-full object-cover group-hover:opacity-75"
+              />
+              <div className="p-6">
+                <h3 className="text-lg font-medium text-gray-900">
+                  {service.name}
+                </h3>
+                <p className="mt-2 text-sm text-gray-600">
+                  {service.description}
+                </p>
+                <p className="mt-2 text-sm text-gray-600 font-bold">
+                  Price: ${service.price}
+                </p>
+                <p className="mt-2 text-sm text-gray-600">
+                  Duration: {service.duration} minutes
+                </p>
+                <div className="text-end">
+                  <Link to={`/services/${service._id}`}>
+                    <button className="btn bg-primary text-xl text-white hover:bg-hover">
+                      Details
+                    </button>
+                  </Link>
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

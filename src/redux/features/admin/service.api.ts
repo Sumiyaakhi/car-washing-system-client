@@ -24,6 +24,13 @@ const serviceApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getAvailabilityByDateAndServiceId: builder.query({
+      query: ({ date, serviceId }) => ({
+        url: `/slots/availability`,
+        method: "GET",
+        params: { date, serviceId },
+      }),
+    }),
   }),
 });
 
@@ -31,4 +38,5 @@ export const {
   useGetAllServicesQuery,
   useCreateAServiceMutation,
   useGetAServiceByIdQuery,
+  useGetAvailabilityByDateAndServiceIdQuery,
 } = serviceApi;
