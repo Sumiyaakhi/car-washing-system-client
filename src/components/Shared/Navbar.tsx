@@ -48,6 +48,20 @@ const Navbar = () => {
           Booking
         </NavLink>
       </li>
+      {user ? (
+        <li className="inline-block mx-2">
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              isActive
+                ? "underline text-primary"
+                : "hover:underline hover:text-primary"
+            }
+          >
+            Dashboard
+          </NavLink>
+        </li>
+      ) : null}
     </>
   );
 

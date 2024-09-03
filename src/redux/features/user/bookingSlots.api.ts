@@ -1,25 +1,24 @@
 import { baseApi } from "../../api/baseApi";
 
-export const reviewApi = baseApi.injectEndpoints({
+export const bookingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllSlelectedSlots: builder.query({
+    getAllbookings: builder.query({
       query: () => ({
-        url: "/slots/selectedSlots",
+        url: "/bookings",
         method: "GET",
       }),
       // providesTags: ["reviews"],
     }),
 
-    createSlelectedSlot: builder.mutation({
+    createBooking: builder.mutation({
       query: (slotData) => ({
-        url: "/slots/selectedSlot",
+        url: "/bookings",
         method: "POST",
         body: slotData,
       }),
-      invalidatesTags: ["slot"],
+      // invalidatesTags: ["slot"],
     }),
   }),
 });
 
-export const { useGetAllSlelectedSlotsQuery, useCreateSlelectedSlotMutation } =
-  reviewApi;
+export const { useCreateBookingMutation, useGetAllbookingsQuery } = bookingApi;

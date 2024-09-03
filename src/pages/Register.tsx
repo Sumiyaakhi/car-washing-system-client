@@ -102,14 +102,12 @@ const Registration: React.FC = () => {
             >
               Role
             </label>
-            <select
+            <input
               id="role"
               {...register("role", { required: true })}
               className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
+              defaultValue="user"
+            ></input>
           </div>
 
           <div>

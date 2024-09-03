@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import { useGetAllReviewsQuery } from "../../redux/features/user/review.api";
-import { useAppSelector } from "../../redux/hooks";
 import { TReview } from "../../types";
 import ReviewForm from "./ReviewForm";
 
 const ReviewSection: React.FC = () => {
   const { data: response, isLoading } = useGetAllReviewsQuery(undefined);
-  const user = useAppSelector((state) => state.auth.user);
 
   const reviews: TReview[] = response?.data || [];
+  console.log("review data", reviews);
 
   if (isLoading) {
     return (
@@ -92,7 +91,7 @@ const ReviewSection: React.FC = () => {
       </div>
 
       <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-        {lastTwoReviews.map((review: TReview, index: number) => (
+        {lastTwoReviews.map((review, index: number) => (
           <div
             key={index}
             className="p-6 bg-white shadow-lg rounded-lg border border-gray-200 flex flex-col md:flex-row items-start space-x-4 hover:shadow-xl transition-shadow duration-300 ease-in-out"
@@ -101,8 +100,8 @@ const ReviewSection: React.FC = () => {
               <div className="avatar">
                 <div className="w-24 h-24 rounded-full border-4 border-primary overflow-hidden">
                   <img
-                    src={user.img}
-                    alt={`${user.name}'s avatar`}
+                    src={review.user.img}
+                    alt={`${review.name}'s avatar`}
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -111,7 +110,7 @@ const ReviewSection: React.FC = () => {
             <div className="mt-4 md:mt-0 md:ml-4 flex-1">
               <div className="flex items-center justify-between">
                 <div className="text-xl font-bold text-primary">
-                  {user.name}
+                  {review.user.name}
                 </div>
                 <div className="text-sm text-gray-500">
                   {new Date(review.createdAt).toLocaleDateString()}

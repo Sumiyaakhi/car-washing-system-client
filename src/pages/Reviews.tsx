@@ -6,9 +6,9 @@ import { TReview } from "../types";
 const Reviews = () => {
   const { data: response, isLoading } = useGetAllReviewsQuery(undefined);
   const user = useAppSelector((state) => state.auth.user);
-
+  // const {};
   const reviews: TReview[] = response?.data || [];
-
+  console.log("reviews data", response);
   if (isLoading) {
     return (
       <div className="flex items-center justify-center lg:py-32">
@@ -96,8 +96,8 @@ const Reviews = () => {
               <div className="avatar">
                 <div className="w-24 h-24 rounded-full border-4 border-primary overflow-hidden">
                   <img
-                    src={user.img}
-                    alt={`${user.name}'s avatar`}
+                    src={review.user.img}
+                    alt={`${review.user.name}'s avatar`}
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -106,7 +106,7 @@ const Reviews = () => {
             <div className="mt-4 md:mt-0 md:ml-4 flex-1">
               <div className="flex items-center justify-between">
                 <div className="text-xl font-bold text-primary">
-                  {user.name}
+                  {review.user.name}
                 </div>
                 <div className="text-sm text-gray-500">
                   {new Date(review.createdAt).toLocaleDateString()}
