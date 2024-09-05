@@ -26,7 +26,7 @@ const UserBookings = () => {
         {" "}
         User bookings
       </h1>
-      <div className="m-5 md:mt-7 bg-white rounded-xl h-full md:p-8">
+      <div className="m-5 md:mt-7 bg-white rounded-xl h-full md:py-8">
         <table className="table w-full ">
           {/* Table Header */}
           <thead>

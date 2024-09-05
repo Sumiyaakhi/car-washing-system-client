@@ -1,6 +1,7 @@
 import AdminDashboard from "../pages/DasboardPages/AdminPages/AdminDashboard";
 import CreateService from "../pages/DasboardPages/AdminPages/CreateService";
 import CreateSlot from "../pages/DasboardPages/AdminPages/CreateSlot";
+import ServiceManagement from "../pages/DasboardPages/AdminPages/ServiceManagement";
 import UserBookings from "../pages/DasboardPages/AdminPages/UserBookings";
 import UserManagement from "../pages/DasboardPages/AdminPages/UserManagement";
 
@@ -24,6 +25,11 @@ export const adminPaths = [
         element: <UserManagement />,
       },
     ],
+  },
+  {
+    name: "Service Management",
+    path: "service-management",
+    element: <ServiceManagement />,
   },
   // {
   //   name: "User Management",

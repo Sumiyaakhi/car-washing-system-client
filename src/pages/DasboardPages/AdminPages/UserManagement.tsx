@@ -57,11 +57,11 @@ const UserManagement = () => {
 
   return (
     <div className="overflow-x-auto">
-      <h2 className="text-xl md:text-3xl text-primary text-center font-semibold mb-4">
+      <h2 className="md:my-6 text-xl md:text-3xl text-primary text-center font-semibold mb-4">
         User Management
       </h2>
       <table className="table w-full bg-white md:p-8">
-        <thead>
+        <thead className="text-xl">
           <tr>
             <th>Name</th>
             <th>Email</th>
@@ -69,7 +69,7 @@ const UserManagement = () => {
             <th>Edit Role</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-[17px]">
           {users.map((user) => (
             <tr key={user._id}>
               <td>{user.name}</td>
