@@ -1,6 +1,8 @@
 import AdminDashboard from "../pages/DasboardPages/AdminPages/AdminDashboard";
 import CreateService from "../pages/DasboardPages/AdminPages/CreateService";
 import CreateSlot from "../pages/DasboardPages/AdminPages/CreateSlot";
+import UserBookings from "../pages/DasboardPages/AdminPages/UserBookings";
+import UserManagement from "../pages/DasboardPages/AdminPages/UserManagement";
 
 export const adminPaths = [
   {
@@ -9,34 +11,54 @@ export const adminPaths = [
     element: <AdminDashboard />,
   },
   {
-    name: "Create-Service",
+    name: "User Management",
+    children: [
+      {
+        name: "User Bookings",
+        path: "user-bookings",
+        element: <UserBookings />,
+      },
+      {
+        name: "User Management",
+        path: "user-management",
+        element: <UserManagement />,
+      },
+    ],
+  },
+  // {
+  //   name: "User Management",
+  //   children: [
+  //     {
+  //       name: "Create Admin",
+  //       path: "create-admin",
+  //       element: <CreateAdmin />,
+  //     },
+  //     {
+  //       name: "Create Faculty",
+  //       path: "create-faculty",
+  //       element: <CreateFaculty />,
+  //     },
+  //     {
+  //       name: "Create Student",
+  //       path: "create-student",
+  //       element: <CreateStudent />,
+  //     },
+  //     {
+  //       name: "Create Member",
+  //       path: "create-member",
+  //       element: <CreateStudent />,
+  //     },
+  //   ],
+  // },
+  {
+    name: "Create Service",
     path: "create-service",
     element: <CreateService />,
   },
   {
-    name: "Create-Slot",
+    name: "Create Slot",
     path: "create-slot",
     element: <CreateSlot />,
-  },
-  {
-    name: "user-management",
-    children: [
-      {
-        name: "Create-admin",
-        path: "create-admin",
-        element: <CreateSlot />,
-      },
-      {
-        name: "Create-Service",
-        path: "create-service",
-        element: <CreateService />,
-      },
-      {
-        name: "Create-Slot",
-        path: "create-slot",
-        element: <CreateSlot />,
-      },
-    ],
   },
 ];
 

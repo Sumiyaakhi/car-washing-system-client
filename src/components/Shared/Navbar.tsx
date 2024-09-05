@@ -6,6 +6,8 @@ import { logout } from "../../redux/features/auth/authSlice";
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const role = user?.role;
+  console.log(role);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -51,7 +53,7 @@ const Navbar = () => {
       {user ? (
         <li className="inline-block mx-2">
           <NavLink
-            to="/dashboard"
+            to={`/dashboard/${role}`}
             className={({ isActive }) =>
               isActive
                 ? "underline text-primary"

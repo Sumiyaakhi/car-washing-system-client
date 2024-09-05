@@ -55,3 +55,19 @@ export type TSlot = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export interface TBooking {
+  _id: string;
+  serviceId: string;
+  slotId: string;
+  customer: object;
+  service: object;
+  slot: object;
+  vehicleType: string;
+  vehicleBrand: string;
+  vehicleModel: string;
+  manufacturingYear: number;
+  registrationPlate: string;
+  tran_id: string;
+  paymentStatus: string;
+}
