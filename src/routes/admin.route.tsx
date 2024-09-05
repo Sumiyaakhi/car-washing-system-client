@@ -1,7 +1,7 @@
 import AdminDashboard from "../pages/DasboardPages/AdminPages/AdminDashboard";
-import CreateService from "../pages/DasboardPages/AdminPages/CreateService";
 import CreateSlot from "../pages/DasboardPages/AdminPages/CreateSlot";
 import ServiceManagement from "../pages/DasboardPages/AdminPages/ServiceManagement";
+import SlotManagement from "../pages/DasboardPages/AdminPages/SlotManagement";
 import UserBookings from "../pages/DasboardPages/AdminPages/UserBookings";
 import UserManagement from "../pages/DasboardPages/AdminPages/UserManagement";
 
@@ -31,35 +31,10 @@ export const adminPaths = [
     path: "service-management",
     element: <ServiceManagement />,
   },
-  // {
-  //   name: "User Management",
-  //   children: [
-  //     {
-  //       name: "Create Admin",
-  //       path: "create-admin",
-  //       element: <CreateAdmin />,
-  //     },
-  //     {
-  //       name: "Create Faculty",
-  //       path: "create-faculty",
-  //       element: <CreateFaculty />,
-  //     },
-  //     {
-  //       name: "Create Student",
-  //       path: "create-student",
-  //       element: <CreateStudent />,
-  //     },
-  //     {
-  //       name: "Create Member",
-  //       path: "create-member",
-  //       element: <CreateStudent />,
-  //     },
-  //   ],
-  // },
   {
-    name: "Create Service",
-    path: "create-service",
-    element: <CreateService />,
+    name: "Slot Management",
+    path: "slot-management",
+    element: <SlotManagement />,
   },
   {
     name: "Create Slot",

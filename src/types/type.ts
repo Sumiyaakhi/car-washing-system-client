@@ -56,7 +56,7 @@ export type TSlot = {
   updatedAt?: Date;
 };
 
-export interface TBooking {
+export type TBooking = {
   _id: string;
   serviceId: string;
   slotId: string;
@@ -70,4 +70,4 @@ export interface TBooking {
   registrationPlate: string;
   tran_id: string;
   paymentStatus: string;
-}
+};

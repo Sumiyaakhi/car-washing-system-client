@@ -118,12 +118,14 @@ const ServiceManagement = () => {
         Service Management
       </h2>
 
-      <button
-        className="btn btn-primary mb-4"
-        onClick={() => setAddModalOpen(true)}
-      >
-        Add Service
-      </button>
+      <div className="text-end">
+        <button
+          className="btn bg-primary text-white hover:bg-hover mb-4"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Service
+        </button>
+      </div>
 
       <div className="overflow-x-auto">
         <table className="table w-full bg-white md:p-8">
@@ -139,7 +141,7 @@ const ServiceManagement = () => {
           </thead>
           <tbody>
             {services.map((service: TService) => (
-              <tr key={service._id}>
+              <tr key={service._id} className="text-[17px]">
                 <td>{service.name}</td>
                 <td>
                   <div className="mask rounded-xl h-24 w-24">
@@ -151,7 +153,7 @@ const ServiceManagement = () => {
                 <td>{service.duration} Minutes</td>
                 <td>
                   <button
-                    className="btn btn-warning mr-2"
+                    className="btn bg-hover text-white hover:bg-primary mr-2"
                     onClick={() => {
                       setSelectedService(service);
                       setUpdateModalOpen(true);
@@ -160,7 +162,7 @@ const ServiceManagement = () => {
                     Update
                   </button>
                   <button
-                    className="btn btn-danger"
+                    className="btn bg-red-500 hover:bg-primary text-white"
                     onClick={() => handleDeleteService(service._id)}
                   >
                     Delete
