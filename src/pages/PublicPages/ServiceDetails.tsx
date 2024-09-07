@@ -16,7 +16,9 @@ const ServiceDetail = () => {
     error: serviceError,
   } = useGetAServiceByIdQuery(id);
 
-  const today = new Date().toISOString().split("T")[0];
+  // const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString("en-CA");
+  console.log(today);
   const {
     data: slotData,
     isLoading: slotLoading,
@@ -67,6 +69,7 @@ const ServiceDetail = () => {
   };
 
   const { name, price, img, duration, description } = service.data;
+  console.log(service.data);
 
   return (
     <div className="max-w-5xl mx-auto py-12 md:py-24">

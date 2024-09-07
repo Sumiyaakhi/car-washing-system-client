@@ -9,6 +9,13 @@ export const bookingApi = baseApi.injectEndpoints({
       }),
       // providesTags: ["reviews"],
     }),
+    getAllbookingsByEmail: builder.query({
+      query: (email: string) => ({
+        url: `/bookings/${email}`, // Pass email as a query parameter
+        method: "GET",
+      }),
+      // providesTags: ["bookings"], // Uncomment if you are using tags for caching
+    }),
 
     createBooking: builder.mutation({
       query: (slotData) => ({
@@ -21,4 +28,8 @@ export const bookingApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateBookingMutation, useGetAllbookingsQuery } = bookingApi;
+export const {
+  useCreateBookingMutation,
+  useGetAllbookingsQuery,
+  useGetAllbookingsByEmailQuery,
+} = bookingApi;
