@@ -74,7 +74,10 @@ const UpcomingBookings = () => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {upcomingBookings.map((booking: Booking) => {
-          const countdownDate = new Date(booking.slot.date).getTime();
+          // Create a Date object for the slot start time
+          const countdownDate = new Date(
+            `${booking.slot.date}T${booking.slot.startTime}`
+          ).getTime();
 
           return (
             <div
@@ -88,10 +91,9 @@ const UpcomingBookings = () => {
                 Date: {new Date(booking.slot.date).toLocaleDateString()}{" "}
               </p>
               <p className="text-xl font-semibold">
-                {" "}
                 Time Slot: {booking.slot.startTime} - {booking.slot.endTime}
               </p>
-              <p className=" font-semibold">
+              <p className="font-semibold">
                 Vehicle: {booking.vehicleBrand} {booking.vehicleModel} (
                 {booking.vehicleType})
               </p>

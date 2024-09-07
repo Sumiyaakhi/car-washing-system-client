@@ -2,16 +2,47 @@ import { Link, NavLink } from "react-router-dom";
 import img from "../../assets/icons/spark_wash_Logo.png";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logout } from "../../redux/features/auth/authSlice";
+import { useEffect, useState } from "react";
+import Countdown from "react-countdown";
+import { useGetAllbookingsByEmailQuery } from "../../redux/features/user/bookingSlots.api";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const userEmail = user?.email || "";
   const role = user?.role;
-  console.log(role);
+  const [nextSlot, setNextSlot] = useState<Date | null>(null);
+
+  const { data, error, isLoading } = useGetAllbookingsByEmailQuery(userEmail);
+
+  useEffect(() => {
+    if (data?.data) {
+      const currentDate = new Date();
+      const sortedBookings = data.data
+        .filter((booking) => new Date(booking.slot.date) > currentDate) // Filter past bookings
+        .sort((a, b) => {
+          const startTimeA = new Date(
+            `${a.slot.date}T${a.slot.startTime}`
+          ).getTime();
+          const startTimeB = new Date(
+            `${b.slot.date}T${b.slot.startTime}`
+          ).getTime();
+          return startTimeA - startTimeB; // Sort by start time
+        });
+
+      const nextBooking = sortedBookings[0]; // Get the earliest upcoming slot
+      if (nextBooking) {
+        setNextSlot(
+          new Date(`${nextBooking.slot.date}T${nextBooking.slot.startTime}`)
+        );
+      }
+    }
+  }, [data]);
 
   const handleLogout = () => {
     dispatch(logout());
   };
+
   const navItem = (
     <>
       <li className="inline-block mx-2">
@@ -96,11 +127,35 @@ const Navbar = () => {
             </ul>
           </div>
           <Link to="/" className="ml-2 text-xl font-bold">
-            <img className="w-28 lg:w-48 " src={img} alt="" />
+            <img className="w-28 lg:w-48 " src={img} alt="Logo" />
           </Link>
         </div>
         <div className="hidden lg:flex items-end space-x-6">
           <ul className="flex items-center space-x-6 text-lg">{navItem}</ul>
+        </div>
+        <div className="countdown-container">
+          {isLoading ? (
+            <span>Loading countdown...</span>
+          ) : error ? (
+            <span>Error fetching countdown</span>
+          ) : nextSlot ? (
+            <div className="hidden  md:flex gap-4">
+              <Countdown
+                date={nextSlot}
+                renderer={({ days, hours, minutes, seconds }) => (
+                  <div className="flex space-x-2 text-lg font-semibold">
+                    <span>{days}d</span>
+                    <span>{hours}h</span>
+                    <span>{minutes}m</span>
+                    <span>{seconds}s</span>
+                  </div>
+                )}
+              />
+              <h1 className="text-primary">(Upcoming slot)</h1>
+            </div>
+          ) : (
+            <span>No upcoming slots</span>
+          )}
         </div>
         <div>
           {user ? (
@@ -114,14 +169,13 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <div className="hidden lg:flex border-[1px] border-gray-400 items-center  rounded-md">
+              <div className="hidden lg:flex border-[1px] border-gray-400 items-center rounded-md">
                 <Link to="/login">
                   <button className="px-5 py-2 hover:bg-hover hover:text-white font-bold rounded-s-md">
                     Sign In
                   </button>
                 </Link>
                 <Link to="/register">
-                  {" "}
                   <button className="py-2 px-5 hover:bg-hover bg-primary text-white font-bold rounded-e-md">
                     Sign Up
                   </button>
