@@ -1,30 +1,66 @@
-# React + TypeScript + Vite
+<div align="center">
+  <h1>Sparkle Car Wash</h1>
+</div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+# Project Name: Sparkle Car Wash
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Introduction
 
-## Expanding the ESLint configuration
+Sparkle Car Wash is a user-friendly web application designed to simplify the car wash booking process. It provides a seamless experience for users to browse services, book time slots, and manage their bookings. Administrators can manage services, slots, and user data through a dedicated dashboard. The system also features a comparison tool for services and various enhancements to improve user interaction.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Project Description
 
-- Configure the top-level `parserOptions` property like this:
+The Sparkle Car Wash project aims to streamline the car wash booking process through an intuitive web application. The platform includes public pages for service browsing and booking, user authentication, detailed service management, and admin functionalities. Users can view and compare services, manage their bookings, and provide feedback, while admins can oversee and control service offerings and user data.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Features
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Public Pages
+
+- **Home Page:** Navigation menu, hero section, call-to-action button, featured services, and review section.
+- **User Authentication Pages:** Sign up and login functionality.
+- **Services Page:** List and filter car wash services.
+- **Service Details Page:** Detailed service information and time slot selection.
+- **Booking Page:** Displays selected service and time slot, form for user information, and payment processing.
+- **Error Pages:** Custom 404 page.
+
+### Admin Pages
+
+- **Admin Dashboard:** Manage services, slots, and users.
+  - **Service Management:** Add, update, and delete services with real-time updates.
+  - **Slot Management:** Manage slot status and create new slots.
+  - **User Management:** View and edit user information and roles.
+
+### User Pages
+
+- **User Dashboard:** Manage personal information and view booking history.
+  - **Past Bookings:** Displayed in tabular format.
+  - **Upcoming Bookings:** Displayed in card format with a countdown timer.
+
+### Bonus Features
+
+- **Service Comparison:** Compare up to 5 services side-by-side.
+- **Scroll to Top Button:** Appears on scroll, allowing quick return to the top of the page.
+
+## Technology Stack
+
+- **Frontend:** React, Redux, TypeScript, Tailwind CSS
+- **Backend:** Node.js, Express
+- **Database:** MongoDB
+- **Authentication:** JWT (JSON Web Token)
+- **Payment Gateway:** AAMARPAY
+
+## Installation Guideline
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or Yarn
+
+### Installation Steps
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-repo-url/sparkle-car-wash.git
+   ```
