@@ -71,6 +71,18 @@ const Navbar = () => {
       </li>
       <li className="inline-block mx-2">
         <NavLink
+          to="/compare"
+          className={({ isActive }) =>
+            isActive
+              ? "underline text-primary"
+              : "hover:underline hover:text-primary"
+          }
+        >
+          Compare
+        </NavLink>
+      </li>
+      <li className="inline-block mx-2">
+        <NavLink
           to="/booking"
           className={({ isActive }) =>
             isActive

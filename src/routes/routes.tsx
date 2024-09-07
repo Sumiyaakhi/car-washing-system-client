@@ -12,6 +12,7 @@ import Reviews from "../pages/Reviews";
 import ServiceDetails from "../pages/PublicPages/ServiceDetails";
 import { adminPaths } from "./admin.route";
 import { userPaths } from "./user.route";
+import ServiceComparison from "../pages/PublicPages/ServiceComparison";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "services/:id",
         element: <ServiceDetails />,
+      },
+      {
+        path: "compare",
+        element: <ServiceComparison />,
       },
       {
         path: "booking",
