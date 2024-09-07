@@ -36,15 +36,21 @@ const Login: React.FC = () => {
           timer: 2000,
         });
 
-        const from = location.state?.from?.pathname || "/";
-        navigate(from, { replace: true });
+        // Check if we have a location state 'from' value to redirect after login
+        const from = location.state?.from || "/"; // Default to home if 'from' is not available
+        navigate(from, { replace: true }); // Redirect to the intended page
       }
-
-      console.log("User:", user);
 
       reset();
     } catch (error) {
-      console.error("Login failed:", error);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Login failed",
+        text: "Something went wrong, please try again!",
+        showConfirmButton: false,
+        timer: 3000,
+      });
     }
   };
 

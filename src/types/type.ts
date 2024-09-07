@@ -18,6 +18,7 @@ export type TSidebarItem = {
 };
 
 export type TUser = {
+  sub: string;
   name: string;
   email: string;
   phone: string;

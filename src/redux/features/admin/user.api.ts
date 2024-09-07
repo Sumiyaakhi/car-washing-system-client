@@ -18,7 +18,19 @@ const usersApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Users"], // Invalidate user list to trigger a refetch
     }),
+    updateUserInfo: builder.mutation<void, { userId: string; data: TUser[] }>({
+      query: ({ userId, data }) => ({
+        url: `/auth/${userId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Users"], // Invalidate user list to trigger a refetch
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery, useUpdateUserRoleMutation } = usersApi;
+export const {
+  useGetAllUsersQuery,
+  useUpdateUserRoleMutation,
+  useUpdateUserInfoMutation,
+} = usersApi;

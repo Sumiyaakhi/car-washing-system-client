@@ -24,12 +24,12 @@ const slotApi = baseApi.injectEndpoints({
       providesTags: ["Slots"],
     }),
 
-    // Mutation for updating a slot
-    updateSlot: builder.mutation<TSlot, { id: string; data: Partial<TSlot> }>({
-      query: ({ id, data }) => ({
+    // Mutation for updating a slot's status
+    updateSlotStatus: builder.mutation<TSlot, { id: string; status: string }>({
+      query: ({ id, status }) => ({
         url: `/slots/${id}`,
         method: "PUT",
-        body: data,
+        body: { status }, // Only update the status field
       }),
       // Invalidate the 'Slots' tag to refetch slot data after update
       invalidatesTags: ["Slots"],
@@ -39,7 +39,7 @@ const slotApi = baseApi.injectEndpoints({
 
 export const {
   useGetSlotsQuery,
-  useUpdateSlotMutation,
+  useUpdateSlotStatusMutation, // Use this for status update
   useCreateASlotMutation,
 } = slotApi;
 

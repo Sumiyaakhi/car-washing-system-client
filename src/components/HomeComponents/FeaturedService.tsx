@@ -2,7 +2,7 @@ import { useGetAllServicesQuery } from "../../redux/features/admin/service.api";
 import { TService } from "../../types";
 
 const FeaturedService = () => {
-  const { data, isLoading } = useGetAllServicesQuery(undefined);
+  const { data, isLoading, error } = useGetAllServicesQuery(undefined);
 
   if (isLoading) {
     return (
@@ -15,9 +15,15 @@ const FeaturedService = () => {
     );
   }
 
+  if (error) {
+    return <p>Error loading services. Please try again later.</p>;
+  }
+
   if (!data || data.length === 0) {
     return <p>No services available at the moment.</p>;
   }
+  const services = data.data;
+  console.log(services);
 
   return (
     <div className="bg-primary">
@@ -26,16 +32,18 @@ const FeaturedService = () => {
           Top Picks: Our Featured Services
         </h2>
         <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
-          {data.slice(0, 6).map((service: TService, index: number) => (
+          {services.slice(0, 6).map((service: TService, index: number) => (
             <div
-              key={index}
+              key={service._id || index}
               className="group relative bg-white rounded-lg shadow-md overflow-hidden"
             >
-              <img
-                src={service.img}
-                alt={service.name}
-                className="w-full  object-cover group-hover:opacity-75"
-              />
+              {service.img && ( // Check if image URL exists
+                <img
+                  src={service.img}
+                  alt={service.name}
+                  className="w-full object-cover group-hover:opacity-75"
+                />
+              )}
               <div className="p-6">
                 <h3 className="text-lg font-medium text-gray-900">
                   {service.name}

@@ -13,6 +13,7 @@ const CreateSlot = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -21,6 +22,7 @@ const CreateSlot = () => {
     try {
       await createSlot(formData).unwrap();
       Swal.fire("Success", "Slot created successfully", "success");
+      reset();
     } catch (error) {
       Swal.fire("Error", "Failed to create slot", "error");
     }

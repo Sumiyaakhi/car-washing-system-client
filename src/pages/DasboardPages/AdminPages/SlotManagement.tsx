@@ -2,58 +2,56 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import {
   useGetSlotsQuery,
-  useUpdateSlotMutation,
+  useUpdateSlotStatusMutation,
 } from "../../../redux/features/admin/slot.api";
 import { TSlot } from "../../../types";
 
 const SlotManagement = () => {
   const { data: slotsResponse, isLoading: slotsLoading } = useGetSlotsQuery();
-  const [updateSlot] = useUpdateSlotMutation();
-  const [selectedSlot, setSelectedSlot] = useState<TSlot | null>(null);
-  const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [status, setStatus] = useState("available");
+  const [updateSlotStatus] = useUpdateSlotStatusMutation();
+  const [selectedStatus, setSelectedStatus] = useState<{
+    [key: string]: string;
+  }>({});
 
-  // Open modal and populate form with selected slot data
-  const handleEditSlot = (slot: TSlot) => {
-    setSelectedSlot(slot);
-    setDate(slot.date);
-    setStartTime(slot.startTime);
-    setEndTime(slot.endTime);
-
-    // Correctly map slot's booking status
-    setStatus(status);
+  // Handle the status selection change
+  const handleStatusChange = (slotId: string, newStatus: string) => {
+    setSelectedStatus((prevStatus) => ({
+      ...prevStatus,
+      [slotId]: newStatus,
+    }));
   };
 
-  // Update slot with form data
-  const handleSaveChanges = async () => {
-    if (!selectedSlot) return;
+  // Save the updated status
+  const handleSaveStatus = async (slot: TSlot) => {
+    if (slot.isBooked === "booked") {
+      Swal.fire({
+        title: "Error",
+        text: "Cannot change the status of a booked slot.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    const newStatus = selectedStatus[slot._id] || slot.isBooked; // Default to current status if not changed
 
     try {
-      // Update slot with the collected form data
-      await updateSlot({
-        id: selectedSlot._id,
-        data: {
-          date,
-          startTime,
-          endTime,
-          isBooked: status,
-        },
+      await updateSlotStatus({
+        id: slot._id,
+        status: newStatus,
       }).unwrap();
 
       Swal.fire({
         title: "Success",
-        text: "Slot details updated successfully!",
+        text: `Slot status updated to ${newStatus.toUpperCase()}!`,
         icon: "success",
         confirmButtonText: "OK",
       });
-      setSelectedSlot(null); // Close the modal
     } catch (error) {
-      console.error("Failed to update slot:", error);
+      console.error("Failed to update slot status:", error);
       Swal.fire({
         title: "Error",
-        text: "Failed to update slot details.",
+        text: "Failed to update slot status.",
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -72,6 +70,7 @@ const SlotManagement = () => {
   }
 
   const slots = slotsResponse?.data;
+  // console.log(slots);
 
   return (
     <div>
@@ -98,14 +97,41 @@ const SlotManagement = () => {
                 <td>
                   {slot.startTime} - {slot.endTime}
                 </td>
-                <td>{slot.isBooked}</td>
-                <td className="flex space-x-2">
+                <td>
+                  {/* Select Dropdown for status */}
+                  <select
+                    className="select select-bordered w-full max-w-xs"
+                    value={
+                      slot.isBooked === "booked"
+                        ? "booked"
+                        : selectedStatus[slot._id] // Show selected status when not booked
+                    }
+                    onChange={(e) =>
+                      handleStatusChange(slot._id, e.target.value)
+                    }
+                    disabled={slot.isBooked === "booked"} // Disable selection if booked
+                  >
+                    {/* Show booked text if the slot is booked */}
+                    {slot.isBooked === "booked" ? (
+                      <option value="booked" disabled>
+                        BOOKED
+                      </option>
+                    ) : (
+                      <>
+                        <option value="available">AVAILABLE</option>
+                        <option value="canceled">CANCELLED</option>
+                      </>
+                    )}
+                  </select>
+                </td>
+                <td>
+                  {/* Save Status Button */}
                   <button
                     className="btn bg-primary text-white hover:bg-hover"
-                    onClick={() => handleEditSlot(slot)}
-                    disabled={slot.isBooked === "booked"} // Only allow editing if not booked
+                    onClick={() => handleSaveStatus(slot)}
+                    disabled={slot.isBooked === "booked"} // Prevent updates for booked slots
                   >
-                    Edit
+                    Save Status
                   </button>
                 </td>
               </tr>
@@ -113,65 +139,6 @@ const SlotManagement = () => {
           </tbody>
         </table>
       </div>
-
-      {/* Edit Slot Modal */}
-      {selectedSlot && (
-        <div className="modal modal-open">
-          <div className="modal-box">
-            <h3 className="text-lg font-bold">Edit Slot</h3>
-            <div className="form-group mt-2">
-              <label>Date</label>
-              <input
-                type="date"
-                className="input input-bordered w-full"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
-            <div className="form-group mt-2">
-              <label>Start Time</label>
-              <input
-                type="time"
-                className="input input-bordered w-full"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
-            </div>
-            <div className="form-group mt-2">
-              <label>End Time</label>
-              <input
-                type="time"
-                className="input input-bordered w-full"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
-            </div>
-            <div className="form-group mt-2">
-              <label>Status</label>
-              <select
-                className="input input-bordered w-full"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                disabled={selectedSlot.isBooked === "booked"} // Disable status change if already booked
-              >
-                <option value="available">AVAILABLE</option>
-                <option value="canceled">CANCELLED</option>
-              </select>
-            </div>
-            <div className="modal-action">
-              <button
-                className="btn bg-primary text-white hover:bg-hover"
-                onClick={handleSaveChanges}
-              >
-                Save Changes
-              </button>
-              <button className="btn" onClick={() => setSelectedSlot(null)}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

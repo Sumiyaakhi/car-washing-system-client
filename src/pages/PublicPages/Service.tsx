@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { useGetAllServicesQuery } from "../../redux/features/admin/service.api";
 import { TService } from "../../types";
+import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Link } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
 
 const Service = () => {
   const { data, isLoading } = useGetAllServicesQuery(undefined);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortKey, setSortKey] = useState("");
   const [filter, setFilter] = useState({ minPrice: 0, maxPrice: 1000 });
-  console.log(data);
+
+  const navigate = useNavigate();
+  const user = useAppSelector((state) => state.auth.user);
   if (isLoading) {
     return (
       <div className="flex items-center justify-center">
@@ -26,7 +29,17 @@ const Service = () => {
     return <p>No services available at the moment.</p>;
   }
 
-  const filteredServices = data.filter((service: TService) => {
+  const handleServiceClick = (serviceId: string) => {
+    if (user) {
+      navigate(`/services/${serviceId}`); // If user is logged in, go to service details
+    } else {
+      navigate("/login", {
+        state: { from: `/services/${serviceId}` }, // Pass the target service page in state
+      });
+    }
+  };
+
+  const filteredServices = data.data.filter((service: TService) => {
     return (
       service.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       service.price >= filter.minPrice &&
@@ -128,11 +141,12 @@ const Service = () => {
                   Duration: {service.duration} minutes
                 </p>
                 <div className="text-end">
-                  <Link to={`/services/${service._id}`}>
-                    <button className="btn bg-primary text-xl text-white hover:bg-hover">
-                      Details
-                    </button>
-                  </Link>
+                  <button
+                    className="btn bg-primary text-xl text-white hover:bg-hover"
+                    onClick={() => handleServiceClick(service._id)} // Call function on button click
+                  >
+                    Details
+                  </button>
                 </div>
               </div>
             </div>

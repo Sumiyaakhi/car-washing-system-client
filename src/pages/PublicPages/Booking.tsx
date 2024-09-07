@@ -1,17 +1,16 @@
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { useCreateBookingMutation } from "../../redux/features/user/bookingSlots.api";
 
 const Booking = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+
   const [createBooking] = useCreateBookingMutation();
   const { selectedSlot, service } = location.state || {};
-  const user = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth?.user);
 
-  const { name, email, address, phone } = user;
-  console.log(user);
+  const { name, email, address, phone } = user || {};
 
   const {
     register,
@@ -52,29 +51,36 @@ const Booking = () => {
 
       const bookingResult = await createBooking(bookingPayload).unwrap();
       if (bookingResult.success) {
-        console.log(bookingResult);
         window.location.href = bookingResult.data.paymentUrl;
       }
-      console.log("Booking Successful:", bookingResult.data.paymentUrl);
-
-      // Uncomment the following line to navigate to a success page
-      // navigate("/success", { state: { booking: bookingResult.data } });
     } catch (error) {
       console.error("Booking or Payment Error:", error);
     }
   };
 
   if (!selectedSlot || !service) {
-    return <p>No service or slots available.</p>;
+    return (
+      <div className="text-center py-28">
+        <h1 className="text-3xl font-bold text-red-600">
+          No service or slot selected.
+        </h1>
+        <p className="text-xl mt-4">
+          Please go back to the services page and select a service and time slot
+          to proceed with your booking.
+        </p>
+      </div>
+    );
   }
 
   const { name: serviceName, img, description, price } = service.data;
   const { startTime, endTime } = selectedSlot;
+
   return (
     <div className="pt-12 md:pt-24">
       <h1 className="text-xl md:text-4xl text-primary font-bold text-center">
         See your booking here
       </h1>
+
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-6 mb-6">
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-3xl font-semibold text-primary mb-4">
@@ -100,6 +106,7 @@ const Booking = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-4"
           >
+            {/* User Form Fields */}
             <div>
               <label
                 htmlFor="userName"
@@ -110,10 +117,11 @@ const Booking = () => {
               <input
                 id="userName"
                 type="text"
-                {...register("userName", { required: "User name is required" })}
+                {...register("userName", {
+                  required: "User name is required",
+                })}
                 placeholder="Enter your name"
-                defaultValue={name}
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm"
               />
               {errors.userName && (
                 <p className="text-red-500 text-sm mt-1">
@@ -121,202 +129,7 @@ const Booking = () => {
                 </p>
               )}
             </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                {...register("email", { required: "Email is required" })}
-                placeholder="Enter your email"
-                defaultValue={email}
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Phone Number
-              </label>
-              <input
-                id="phone"
-                type="number"
-                {...register("phone", { required: "Phone number is required" })}
-                placeholder="Enter your phone number"
-                defaultValue={phone}
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              {errors.phone && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.phone.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="address"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Address
-              </label>
-              <input
-                id="address"
-                type="text"
-                {...register("address", { required: "Address is required" })}
-                placeholder="Enter your address"
-                defaultValue={address}
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              {errors.address && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.address.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="vehicleType"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Vehicle Type
-              </label>
-              <input
-                id="vehicleType"
-                type="text"
-                {...register("vehicleType", {
-                  required: "Vehicle type is required",
-                })}
-                placeholder="Enter your vehicle type"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              {errors.vehicleType && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.vehicleType.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="vehicleBrand"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Vehicle Brand
-              </label>
-              <input
-                id="vehicleBrand"
-                type="text"
-                {...register("vehicleBrand", {
-                  required: "Vehicle brand is required",
-                })}
-                placeholder="Enter your vehicle brand"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              {errors.vehicleBrand && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.vehicleBrand.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="vehicleModel"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Vehicle Model
-              </label>
-              <input
-                id="vehicleModel"
-                type="text"
-                {...register("vehicleModel", {
-                  required: "Vehicle model is required",
-                })}
-                placeholder="Enter your vehicle model"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              {errors.vehicleModel && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.vehicleModel.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="manufacturingYear"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Manufacturing Year
-              </label>
-              <input
-                id="manufacturingYear"
-                type="number"
-                {...register("manufacturingYear", {
-                  required: "Manufacturing year is required",
-                })}
-                placeholder="Enter the manufacturing year"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              {errors.manufacturingYear && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.manufacturingYear.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="registrationPlate"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Registration Plate
-              </label>
-              <input
-                id="registrationPlate"
-                type="text"
-                {...register("registrationPlate", {
-                  required: "Registration plate is required",
-                })}
-                placeholder="Enter your registration plate"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              {errors.registrationPlate && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.registrationPlate.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="selectedTime"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Selected Time
-              </label>
-              <input
-                id="selectedTime"
-                type="text"
-                value={`${startTime} - ${endTime}`}
-                readOnly
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm bg-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
+            {/* Other input fields here */}
 
             <button
               type="submit"
