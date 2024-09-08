@@ -6,7 +6,7 @@
 
 # Project Name: Sparkle Car Wash
 
-## Introduction
+## Introduction ()
 
 Sparkle Car Wash is a user-friendly web application designed to simplify the car wash booking process. It provides a seamless experience for users to browse services, book time slots, and manage their bookings. Administrators can manage services, slots, and user data through a dedicated dashboard. The system also features a comparison tool for services and various enhancements to improve user interaction.
 
@@ -62,5 +62,13 @@ The Sparkle Car Wash project aims to streamline the car wash booking process thr
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-repo-url/sparkle-car-wash.git
+   git clone https://github.com/Sumiyaakhi/car-washing-system-client
+   ```
+2. **Node package manager install:**
+   ```bash
+   npm i
+   ```
+3. **Run the project:**
+   ```bash
+   npm run dev
    ```
