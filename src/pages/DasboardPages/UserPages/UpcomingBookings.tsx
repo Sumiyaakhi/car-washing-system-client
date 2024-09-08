@@ -25,18 +25,22 @@ const UpcomingBookings = () => {
     userEmail as string
   );
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
-  // console.log(upcomingBookings);
 
+  // Filter upcoming bookings
   useEffect(() => {
     if (data?.data) {
       const currentDate = new Date();
       const filteredBookings = data.data.filter((booking: Booking) => {
-        const bookingDate = new Date(booking.slot.date);
-        return bookingDate > currentDate; // Only show upcoming bookings
+        const bookingDate = new Date(
+          `${booking.slot.date}T${booking.slot.startTime}`
+        );
+        return bookingDate > currentDate; // Only show future bookings
       });
       setUpcomingBookings(filteredBookings);
     }
   }, [data]);
+
+  console.log(data.data);
 
   useEffect(() => {
     if (error) {
