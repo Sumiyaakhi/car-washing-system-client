@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../redux/hooks";
 import { useGetAllReviewsQuery } from "../redux/features/user/review.api";
 import { TReview } from "../types";
@@ -41,10 +41,8 @@ const Reviews = () => {
     return <p>No reviews available at the moment.</p>;
   }
 
-  // Calculate overall site's rating (average rating)
   const overallRating = (
-    reviews.reduce((sum, review) => sum + parseFloat(review.rating), 0) /
-    reviews.length
+    reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
   ).toFixed(1);
 
   // Convert overall rating to an integer to handle the star display

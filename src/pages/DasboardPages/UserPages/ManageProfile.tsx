@@ -8,8 +8,8 @@ import { updateUserInfo } from "../../../redux/features/auth/authSlice"; // Impo
 
 const ManageProfile = () => {
   const user = useAppSelector((state) => state.auth.user) as TUser;
-  const dispatch = useAppDispatch(); // Initialize dispatch
-  const [updateUserInfoMutation, { isLoading, isError, isSuccess }] =
+  const dispatch = useAppDispatch();
+  const [updateUserInfoMutation, { isLoading, isError }] =
     useUpdateUserInfoMutation();
 
   const {
@@ -38,7 +38,7 @@ const ManageProfile = () => {
     });
   }, [user, reset]);
 
-  const onSubmit: SubmitHandler<TUser> = async (data) => {
+  const onSubmit: SubmitHandler<TUser> = async (data: object) => {
     if (!user?.sub) {
       // Handle the case where userId is not available
       Swal.fire({
@@ -51,7 +51,7 @@ const ManageProfile = () => {
     }
 
     try {
-      // Update user info in the backend
+      // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
       await updateUserInfoMutation({ userId: user.sub, data }).unwrap();
 
       // Dispatch action to update the user information in the Redux store

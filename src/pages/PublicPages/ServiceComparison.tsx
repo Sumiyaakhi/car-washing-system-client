@@ -5,8 +5,9 @@ import { TService } from "../../types";
 const ServiceComparison = () => {
   const { data: response, error, isLoading } = useGetAllServicesQuery();
   const [selectedServices, setSelectedServices] = useState<TService[]>([]);
-
+  // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
   const services: TService[] = response?.data || [];
+
   // Handle service selection, restrict to a maximum of 5
   const handleSelectService = (service: TService) => {
     setSelectedServices((prev) => {

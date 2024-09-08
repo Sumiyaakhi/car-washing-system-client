@@ -1,4 +1,3 @@
-import React from "react";
 import Banner from "../../components/HomeComponents/Banner";
 import ReviewSection from "../../components/HomeComponents/ReviewSection";
 import FeaturedService from "../../components/HomeComponents/FeaturedService";

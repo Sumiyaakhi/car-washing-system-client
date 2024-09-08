@@ -18,6 +18,7 @@ export type TSidebarItem = {
 };
 
 export type TUser = {
+  _id?: string;
   sub: string;
   name: string;
   email: string;
@@ -61,6 +62,7 @@ export type TSlot = {
 
 export type TBooking = {
   _id: string;
+  date?: Date;
   serviceId: string;
   slotId: string;
   customer: object;

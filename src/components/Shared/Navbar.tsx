@@ -5,7 +5,18 @@ import { logout } from "../../redux/features/auth/authSlice";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { useGetAllbookingsByEmailQuery } from "../../redux/features/user/bookingSlots.api";
-
+import { TBooking } from "../../types";
+type TBook = {
+  booking: TBooking[];
+  slot: {
+    date: Date;
+    startTime: string;
+  };
+  sort: {
+    a: string;
+    b: string;
+  };
+};
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
@@ -13,14 +24,16 @@ const Navbar = () => {
   const role = user?.role;
   const [nextSlot, setNextSlot] = useState<Date | null>(null);
 
-  const { data, error, isLoading } = useGetAllbookingsByEmailQuery(userEmail);
+  const { data, isLoading } = useGetAllbookingsByEmailQuery(userEmail);
 
   useEffect(() => {
     if (data?.data) {
       const currentDate = new Date();
       const sortedBookings = data.data
-        .filter((booking) => new Date(booking.slot.date) > currentDate) // Filter past bookings
-        .sort((a, b) => {
+        .filter(
+          (booking: TBook) => new Date(booking.slot.date as Date) > currentDate
+        ) // Filter past bookings
+        .sort((a: TBook, b: TBook) => {
           const startTimeA = new Date(
             `${a.slot.date}T${a.slot.startTime}`
           ).getTime();
@@ -147,7 +160,7 @@ const Navbar = () => {
         </div>
         {isLoading && nextSlot ? (
           <div className="countdown-container">
-            <div className="hidden  md:flex gap-4">
+            <div className="hidden md:flex gap-4">
               <Countdown
                 date={nextSlot}
                 renderer={({ days, hours, minutes, seconds }) => (

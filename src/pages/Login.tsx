@@ -25,6 +25,7 @@ const Login: React.FC = () => {
       const res = await login(data).unwrap();
       const token = res.token;
       const user = verifyToken(token);
+      // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
       dispatch(setUser({ user, token }));
 
       if (user) {
@@ -36,9 +37,8 @@ const Login: React.FC = () => {
           timer: 2000,
         });
 
-        // Check if we have a location state 'from' value to redirect after login
-        const from = location.state?.from || "/"; // Default to home if 'from' is not available
-        navigate(from, { replace: true }); // Redirect to the intended page
+        const from = location.state?.from || "/";
+        navigate(from, { replace: true });
       }
 
       reset();

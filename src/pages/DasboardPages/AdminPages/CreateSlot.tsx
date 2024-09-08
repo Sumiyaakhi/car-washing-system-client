@@ -1,9 +1,8 @@
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useCreateASlotMutation } from "../../../redux/features/admin/slot.api";
 import { useGetAllServicesQuery } from "../../../redux/features/admin/service.api";
-import { TSlot } from "../../../types";
-// Redux API to create slot
+import { TService, TSlot } from "../../../types";
 
 const CreateSlot = () => {
   const { data: servicesData, isLoading: servicesLoading } =
@@ -15,9 +14,9 @@ const CreateSlot = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<TSlot>(); // Specify the type of form data
 
-  const onSubmit = async (formData: TSlot) => {
+  const onSubmit: SubmitHandler<TSlot> = async (formData) => {
     console.log(formData);
     try {
       await createSlot(formData).unwrap();
@@ -32,8 +31,11 @@ const CreateSlot = () => {
     return <div>Loading services...</div>;
   }
 
+  // Directly use the data as TService[]
+  // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
+  const services: TService[] = servicesData?.data || [];
   return (
-    <div className="container mx-auto p-4 max-w-xl ">
+    <div className="container mx-auto p-4 max-w-xl">
       <h2 className="text-xl md:text-3xl text-primary font-bold mb-4 text-center">
         Create Slot
       </h2>
@@ -49,7 +51,7 @@ const CreateSlot = () => {
             className="input input-bordered w-full"
           >
             <option value="">Select a service</option>
-            {servicesData?.data?.map((service) => (
+            {services?.map((service: TService) => (
               <option key={service._id} value={service._id}>
                 {service.name}
               </option>

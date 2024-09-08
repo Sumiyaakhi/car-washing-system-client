@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,7 +10,7 @@ const BookingForm = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState("10:00");
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: object) => {
     console.log(data);
   };
 
@@ -39,7 +39,7 @@ const BookingForm = () => {
           id="date"
           selected={selectedDate}
           onChange={(date) => {
-            setSelectedDate(date);
+            setSelectedDate(date as Date);
             setValue("date", date);
           }}
           className="border p-2 lg:p-4 w-full bg-gray-100"
@@ -54,7 +54,7 @@ const BookingForm = () => {
           id="time"
           value={selectedTime}
           onChange={(time) => {
-            setSelectedTime(time);
+            setSelectedTime(time as string);
             setValue("time", time);
           }}
           className="border p-2 lg:p-4 w-full bg-gray-100"

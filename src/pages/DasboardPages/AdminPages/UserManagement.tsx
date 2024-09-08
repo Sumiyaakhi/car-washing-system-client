@@ -88,7 +88,9 @@ const UserManagement = () => {
                     </select>
                     <button
                       className="btn bg-hover text-white"
-                      onClick={() => handleRoleChange(user._id, selectedRole)}
+                      onClick={() =>
+                        handleRoleChange(user._id as string, selectedRole)
+                      }
                     >
                       Save
                     </button>
@@ -97,7 +99,7 @@ const UserManagement = () => {
                   <button
                     className="btn text-white bg-primary hover:bg-hover"
                     onClick={() => {
-                      setSelectedUserId(user._id);
+                      setSelectedUserId(user._id as string);
                       setSelectedRole(user.role); // Initialize with the current role
                     }}
                   >

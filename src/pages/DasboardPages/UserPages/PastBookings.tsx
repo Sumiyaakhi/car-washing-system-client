@@ -1,16 +1,38 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import Swal from "sweetalert2";
 import { useGetAllbookingsByEmailQuery } from "../../../redux/features/user/bookingSlots.api";
+
+// Assuming TBooking has a structure similar to this:
+interface TBooking {
+  _id: string;
+  service: {
+    name: string;
+  };
+  slot: {
+    date: string;
+    startTime: string;
+    endTime: string;
+  };
+  vehicleBrand: string;
+  vehicleModel: string;
+  vehicleType: string;
+  paymentStatus: string;
+}
 
 const PastBookings = () => {
   const userEmail = useAppSelector((state) => state.auth.user?.email);
-  const { data, error, isLoading } = useGetAllbookingsByEmailQuery(userEmail);
-  const [pastBookings, setPastBookings] = useState([]);
+
+  // Type the API query response properly
+  const { data, isLoading } = useGetAllbookingsByEmailQuery(
+    userEmail as string
+  );
+
+  // Set the state with the correct type
+  const [pastBookings, setPastBookings] = useState<TBooking[]>([]);
 
   useEffect(() => {
     if (data && data.data) {
-      const bookings = data.data;
+      const bookings = data.data as TBooking[]; // Type assertion if necessary
       const currentDate = new Date();
       const filteredBookings = bookings.filter((booking) => {
         const bookingDate = new Date(booking.slot.date);
@@ -19,25 +41,6 @@ const PastBookings = () => {
       setPastBookings(filteredBookings);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (error) {
-      let errorMessage = "Failed to fetch past bookings.";
-      if (error.status === 404) {
-        errorMessage = "No bookings found for this user.";
-      } else if (error.status === 500) {
-        errorMessage = "Server error. Please try again later.";
-      } else if (error.status === 401) {
-        errorMessage = "Unauthorized access. Please login.";
-      }
-
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: errorMessage,
-      });
-    }
-  }, [error]);
 
   if (isLoading) {
     return (
@@ -53,7 +56,9 @@ const PastBookings = () => {
   if (!pastBookings || pastBookings.length === 0) {
     return <div>No past bookings found.</div>;
   }
+
   console.log(pastBookings);
+
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-xl md:text-3xl text-primary font-semibold text-center mb-6">

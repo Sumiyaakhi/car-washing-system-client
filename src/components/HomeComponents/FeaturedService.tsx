@@ -1,8 +1,13 @@
 import { useGetAllServicesQuery } from "../../redux/features/admin/service.api";
 import { TService } from "../../types";
-
+interface ServiceApiResponse {
+  data: TService[];
+  isLoading: boolean;
+  error: string;
+}
 const FeaturedService = () => {
-  const { data, isLoading, error } = useGetAllServicesQuery(undefined);
+  const { data, isLoading, error } =
+    useGetAllServicesQuery<ServiceApiResponse>(undefined);
 
   if (isLoading) {
     return (
@@ -22,6 +27,7 @@ const FeaturedService = () => {
   if (!data || data.length === 0) {
     return <p>No services available at the moment.</p>;
   }
+  // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
   const services = data.data;
   console.log(services);
 

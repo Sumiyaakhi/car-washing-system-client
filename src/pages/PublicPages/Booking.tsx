@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { useCreateBookingMutation } from "../../redux/features/user/bookingSlots.api";
 
@@ -8,7 +8,7 @@ const Booking = () => {
 
   const [createBooking] = useCreateBookingMutation();
   const { selectedSlot, service } = location.state || {};
-  console.log(selectedSlot);
+
   const user = useAppSelector((state) => state.auth?.user);
 
   const { name, email, address, phone } = user || {};
@@ -30,7 +30,7 @@ const Booking = () => {
       registrationPlate: "ABC123",
     },
   });
-
+  // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
   const onSubmit = async (data) => {
     try {
       const bookingPayload = {

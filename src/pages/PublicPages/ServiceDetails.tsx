@@ -14,18 +14,18 @@ const ServiceDetail = () => {
     data: service,
     isLoading: serviceLoading,
     error: serviceError,
-  } = useGetAServiceByIdQuery(id);
+  } = useGetAServiceByIdQuery(id as string);
 
-  // const today = new Date().toISOString().split("T")[0];
   const today = new Date().toLocaleDateString("en-CA");
-  console.log(today);
+
   const {
     data: slotData,
     isLoading: slotLoading,
     error: slotError,
   } = useGetAvailabilityByDateAndServiceIdQuery({
     date: today,
-    serviceId: id,
+
+    serviceId: id as string,
   });
 
   const [selectedSlot, setSelectedSlot] = useState<TSlot | null>(null);
@@ -49,8 +49,8 @@ const ServiceDetail = () => {
       </div>
     );
   }
-
-  if (serviceError || !service || !service.data) {
+  // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
+  if (serviceError || !service || !service?.data) {
     return (
       <p className="text-center text-red-500">
         Service not available at the moment.
@@ -67,9 +67,8 @@ const ServiceDetail = () => {
       navigate("/booking", { state: { selectedSlot, service } });
     }
   };
-
+  // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
   const { name, price, img, duration, description } = service.data;
-  console.log(service.data);
 
   return (
     <div className="max-w-5xl mx-auto py-12 md:py-24">

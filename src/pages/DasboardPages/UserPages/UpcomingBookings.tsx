@@ -21,9 +21,11 @@ interface Booking {
 
 const UpcomingBookings = () => {
   const userEmail = useAppSelector((state) => state.auth.user?.email);
-  const { data, error, isLoading } = useGetAllbookingsByEmailQuery(userEmail);
+  const { data, error, isLoading } = useGetAllbookingsByEmailQuery(
+    userEmail as string
+  );
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
-  console.log(upcomingBookings);
+  // console.log(upcomingBookings);
 
   useEffect(() => {
     if (data?.data) {

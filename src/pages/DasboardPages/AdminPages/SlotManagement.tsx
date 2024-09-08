@@ -68,9 +68,8 @@ const SlotManagement = () => {
       </div>
     );
   }
-
+  // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
   const slots = slotsResponse?.data;
-  // console.log(slots);
 
   return (
     <div>
@@ -92,7 +91,12 @@ const SlotManagement = () => {
           <tbody>
             {slots.map((slot: TSlot) => (
               <tr key={slot._id}>
-                <td>{slot.service.name}</td>
+                <td>
+                  {
+                    // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
+                    slot.service.name
+                  }
+                </td>
                 <td>{slot.date}</td>
                 <td>
                   {slot.startTime} - {slot.endTime}

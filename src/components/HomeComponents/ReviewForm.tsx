@@ -8,7 +8,7 @@ const ReviewForm = () => {
   const { handleSubmit, reset, register } = useForm<TReview>();
   const [rating, setRating] = useState<number>(0);
   const [createReview, refetch] = useCreateReviewMutation();
-  const [error, setError] = useState<string | null>(null);
+
   const onSubmit: SubmitHandler<TReview> = async (data) => {
     console.log("Review Data:", { ...data, rating });
     reset();
@@ -26,7 +26,7 @@ const ReviewForm = () => {
       console.error("Error submitting review:", err);
       const errorMessage =
         err?.message || "An error occurred while submitting the review.";
-      setError(errorMessage);
+
       Swal.fire({
         title: "Error",
         text: errorMessage,

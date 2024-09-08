@@ -10,7 +10,7 @@ import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: "https://assignment-3-sepia-six.vercel.app/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -34,10 +34,13 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     //* Send Refresh
     console.log("Sending refresh token");
 
-    const res = await fetch("http://localhost:5000/api/auth/refresh-token", {
-      method: "POST",
-      credentials: "include",
-    });
+    const res = await fetch(
+      "https://assignment-3-sepia-six.vercel.app/api/auth/refresh-token",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
 
     const data = await res.json();
 
@@ -46,6 +49,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
       api.dispatch(
         setUser({
+          // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
           user,
           token: data.data.accessToken,
         })

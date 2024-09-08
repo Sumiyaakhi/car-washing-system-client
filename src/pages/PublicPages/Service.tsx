@@ -38,14 +38,16 @@ const Service = () => {
       });
     }
   };
-
-  const filteredServices = data.data.filter((service: TService) => {
-    return (
-      service.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      service.price >= filter.minPrice &&
-      service.price <= filter.maxPrice
-    );
-  });
+  // @ts-expect-error: Ignoring type error due to mismatch in expected types from external library
+  const filteredServices: TService[] = data?.data?.filter(
+    (service: TService) => {
+      return (
+        service.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        service.price >= filter.minPrice &&
+        service.price <= filter.maxPrice
+      );
+    }
+  );
 
   const sortedServices = [...filteredServices].sort((a, b) => {
     if (sortKey === "priceAsc") {

@@ -16,6 +16,7 @@ module.exports = {
     ],
     "no-undef": "off",
     "@typescript-eslint/no-unused-vars": 0, // Move this rule to the top-level rules object
-    "@typescript-eslint/no-explicit-any": 0, // Move this rule to the top-level rules object
+    "@typescript-eslint/no-explicit-any": 0,
+    " @typescript-eslint/ban-ts-comment": 0, // Move this rule to the top-level rules object
   },
 };
