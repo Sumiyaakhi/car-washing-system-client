@@ -26,13 +26,22 @@ const Navbar = () => {
 
   const { data, isLoading } = useGetAllbookingsByEmailQuery(userEmail);
 
+  // Logging the data to inspect the structure
+  useEffect(() => {
+    console.log(data?.data);
+  }, [data]);
+
   useEffect(() => {
     if (data?.data) {
       const currentDate = new Date();
       const sortedBookings = data.data
-        .filter(
-          (booking: TBook) => new Date(booking.slot.date as Date) > currentDate
-        ) // Filter past bookings
+        .filter((booking: TBook) => {
+          // No 'Z' to avoid forcing UTC if the date is local
+          const bookingDate = new Date(
+            `${booking.slot.date}T${booking.slot.startTime}`
+          );
+          return bookingDate > currentDate; // Filter out past bookings
+        })
         .sort((a: TBook, b: TBook) => {
           const startTimeA = new Date(
             `${a.slot.date}T${a.slot.startTime}`
@@ -43,7 +52,7 @@ const Navbar = () => {
           return startTimeA - startTimeB; // Sort by start time
         });
 
-      const nextBooking = sortedBookings[0]; // Get the earliest upcoming slot
+      const nextBooking = sortedBookings[0]; // Get the closest upcoming booking
       if (nextBooking) {
         setNextSlot(
           new Date(`${nextBooking.slot.date}T${nextBooking.slot.startTime}`)
@@ -52,6 +61,7 @@ const Navbar = () => {
     }
   }, [data]);
 
+  console.log(nextSlot);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -158,11 +168,11 @@ const Navbar = () => {
         <div className="hidden lg:flex items-end space-x-6">
           <ul className="flex items-center space-x-6 text-lg">{navItem}</ul>
         </div>
-        {isLoading && nextSlot ? (
+        {!isLoading && nextSlot ? (
           <div className="countdown-container">
             <div className="hidden md:flex gap-4">
               <Countdown
-                date={nextSlot}
+                date={nextSlot} // Pass the correct nextSlot date here
                 renderer={({ days, hours, minutes, seconds }) => (
                   <div className="flex space-x-2 text-lg font-semibold">
                     <span>{days}d</span>
@@ -175,9 +185,7 @@ const Navbar = () => {
               <h1 className="text-primary">(Upcoming slot)</h1>
             </div>
           </div>
-        ) : (
-          <></>
-        )}
+        ) : null}
         <div>
           {user ? (
             <>
