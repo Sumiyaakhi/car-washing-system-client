@@ -23,6 +23,7 @@ const UpcomingBookings = () => {
   const userEmail = useAppSelector((state) => state.auth.user?.email);
   const { data, error, isLoading } = useGetAllbookingsByEmailQuery(userEmail);
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
+  console.log(upcomingBookings);
 
   useEffect(() => {
     if (data?.data) {
@@ -69,9 +70,18 @@ const UpcomingBookings = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-6">
-        Upcoming Bookings
-      </h2>
+      {upcomingBookings.length > 0 && (
+        <h2 className="text-xl md:text-3xl font-semibold text-primary text-center mb-6">
+          Upcoming Bookings
+        </h2>
+      )}
+
+      {upcomingBookings.length === 0 && (
+        <h1 className="text-2xl text-center text-red-500 font-bold mb-6">
+          There are no upcoming bookings.
+        </h1>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {upcomingBookings.map((booking: Booking) => {
           // Create a Date object for the slot start time

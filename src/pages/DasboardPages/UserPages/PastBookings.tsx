@@ -56,7 +56,9 @@ const PastBookings = () => {
   console.log(pastBookings);
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-6">Past Bookings</h2>
+      <h2 className="text-xl md:text-3xl text-primary font-semibold text-center mb-6">
+        Past Bookings
+      </h2>
       <table className="min-w-full bg-white border">
         <thead>
           <tr className="border-b">

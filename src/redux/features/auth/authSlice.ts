@@ -28,13 +28,18 @@ const authSlice = createSlice({
         state.user = { ...state.user, ...action.payload };
       }
     },
+    // New action to handle registration data
+    registerUser: (state, action: PayloadAction<TUser>) => {
+      state.user = action.payload; // Set the registered user in the state
+    },
   },
 });
 
-export const { setUser, logout, updateUserInfo } = authSlice.actions;
+export const { setUser, logout, updateUserInfo, registerUser } =
+  authSlice.actions;
 export default authSlice.reducer;
 
 export const useCurrentToken = (state: RootState) => state.auth.token;
 export const useCurrentUser = (state: RootState) => state.auth.user;
 
-export const isAuthenticated = (state: RootState) => !!state.auth.token;
+export const selectIsAuthenticated = (state: RootState) => !!state.auth.token;

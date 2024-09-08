@@ -1,14 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../redux/hooks";
 import { useGetAllReviewsQuery } from "../redux/features/user/review.api";
 import { TReview } from "../types";
+import { useEffect, useState } from "react";
 
 const Reviews = () => {
   const { data: response, isLoading } = useGetAllReviewsQuery(undefined);
   const user = useAppSelector((state) => state.auth.user);
-  // const {};
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  // Check if user is logged in, otherwise show the overlay
+  useEffect(() => {
+    if (!user) {
+      setShowOverlay(true);
+    } else {
+      setShowOverlay(false);
+    }
+  }, [user]);
+
+  const handleLoginClick = () => {
+    navigate("/login", { state: { from: location } });
+  };
+
   const reviews: TReview[] = response?.data || [];
-  console.log("reviews data", response);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center lg:py-32">
@@ -35,7 +52,24 @@ const Reviews = () => {
   const hasHalfStar = parseFloat(overallRating) - fullStars >= 0.5;
 
   return (
-    <div className="lg:py-24 md:py-16 max-w-7xl mx-auto">
+    <div className="relative lg:py-24 md:py-16 max-w-7xl mx-auto">
+      {/* Black overlay for non-logged-in users */}
+      {showOverlay && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded shadow-lg text-center">
+            <p className="text-xl font-bold text-gray-800 mb-4">
+              Please log in to view reviews
+            </p>
+            <button
+              onClick={handleLoginClick}
+              className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark"
+            >
+              Login
+            </button>
+          </div>
+        </div>
+      )}
+
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-6 text-primary mt-8">
         User Reviews
       </h2>

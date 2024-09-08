@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGetAllServicesQuery } from "../../redux/features/admin/service.api";
 import { TService } from "../../types";
 
 const ServiceComparison = () => {
-  const { data, error, isLoading } = useGetAllServicesQuery();
+  const { data: response, error, isLoading } = useGetAllServicesQuery();
   const [selectedServices, setSelectedServices] = useState<TService[]>([]);
 
-  const services = data?.data;
-
+  const services: TService[] = response?.data || [];
   // Handle service selection, restrict to a maximum of 5
   const handleSelectService = (service: TService) => {
     setSelectedServices((prev) => {
@@ -78,12 +77,12 @@ const ServiceComparison = () => {
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-6">
+    <div className="py-24 bg-white px-5 rounded-lg shadow-md max-w-7xl mx-auto">
+      <h2 className="text-2xl md:text-3xl text-primary  font-semibold text-center mb-6">
         Compare Services
       </h2>
       <div className="mb-6">
-        <h3 className="text-xl font-semibold mb-4">
+        <h3 className=" font-semibold mb-8 text-2xl ">
           Select Services to Compare
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

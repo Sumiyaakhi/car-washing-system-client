@@ -145,12 +145,8 @@ const Navbar = () => {
         <div className="hidden lg:flex items-end space-x-6">
           <ul className="flex items-center space-x-6 text-lg">{navItem}</ul>
         </div>
-        <div className="countdown-container">
-          {isLoading ? (
-            <span>Loading countdown...</span>
-          ) : error ? (
-            <span>Error fetching countdown</span>
-          ) : nextSlot ? (
+        {isLoading && nextSlot ? (
+          <div className="countdown-container">
             <div className="hidden  md:flex gap-4">
               <Countdown
                 date={nextSlot}
@@ -165,10 +161,10 @@ const Navbar = () => {
               />
               <h1 className="text-primary">(Upcoming slot)</h1>
             </div>
-          ) : (
-            <span>No upcoming slots</span>
-          )}
-        </div>
+          </div>
+        ) : (
+          <></>
+        )}
         <div>
           {user ? (
             <>

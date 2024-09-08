@@ -1,16 +1,40 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { TReview } from "../../types";
+import { useCreateReviewMutation } from "../../redux/features/user/review.api";
+import Swal from "sweetalert2";
 
 const ReviewForm = () => {
   const { handleSubmit, reset, register } = useForm<TReview>();
   const [rating, setRating] = useState<number>(0);
-
-  const onSubmit: SubmitHandler<TReview> = (data) => {
+  const [createReview, refetch] = useCreateReviewMutation();
+  const [error, setError] = useState<string | null>(null);
+  const onSubmit: SubmitHandler<TReview> = async (data) => {
     console.log("Review Data:", { ...data, rating });
     reset();
     setRating(0);
+    try {
+      console.log("Submitting review data:", { ...data, rating });
+      await createReview({ ...data, rating }).unwrap();
+      Swal.fire({
+        title: "Success",
+        text: "Review submitted successfully!",
+        icon: "success",
+      });
+      refetch;
+    } catch (err: any) {
+      console.error("Error submitting review:", err);
+      const errorMessage =
+        err?.message || "An error occurred while submitting the review.";
+      setError(errorMessage);
+      Swal.fire({
+        title: "Error",
+        text: errorMessage,
+        icon: "error",
+      });
+    }
   };
+
   return (
     <div className="flex items-center justify-center max-w-screen md:my-8">
       <div className="w-full max-w-xl p-8 bg-white rounded-lg shadow-lg">

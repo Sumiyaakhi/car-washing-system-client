@@ -1,7 +1,7 @@
 import { useAppSelector } from "../../../redux/hooks";
 import { TUser } from "../../../types";
 
-const UserDashboard = () => {
+const Dashboard = () => {
   const user: TUser | null = useAppSelector((state) => state.auth?.user);
   console.log(user);
   if (!user) {
@@ -13,13 +13,15 @@ const UserDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-5">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="bg-primary p-6">
-          <img
-            src={img}
-            alt={name}
-            className="w-32 h-32  mx-auto border-4 border-white"
-          />
+        <div className="flex items-center justify-center my-5">
+          {" "}
+          <div className="avatar online ">
+            <div className="w-44 rounded-full">
+              <img src={img} alt={name} />
+            </div>
+          </div>
         </div>
+
         <div className="p-6">
           <h1 className="text-center text-3xl font-semibold text-gray-800">
             {name}
@@ -52,4 +54,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default Dashboard;

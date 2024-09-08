@@ -3,7 +3,7 @@ import { useGetAllReviewsQuery } from "../../redux/features/user/review.api";
 import { TReview } from "../../types";
 import ReviewForm from "./ReviewForm";
 
-const ReviewSection: React.FC = () => {
+const ReviewSection = () => {
   const { data: response, isLoading } = useGetAllReviewsQuery(undefined);
 
   const reviews: TReview[] = response?.data || [];
@@ -26,8 +26,10 @@ const ReviewSection: React.FC = () => {
 
   // Calculate overall site's rating (average rating)
   const overallRating = (
-    reviews.reduce((sum, review) => sum + parseFloat(review.rating), 0) /
-    reviews.length
+    reviews.reduce(
+      (sum, review) => sum + parseFloat(review.rating.toString()),
+      0
+    ) / reviews.length
   ).toFixed(1);
 
   // Select the last two reviews
@@ -100,8 +102,8 @@ const ReviewSection: React.FC = () => {
               <div className="avatar">
                 <div className="w-24 h-24 rounded-full border-4 border-primary overflow-hidden">
                   <img
-                    src={review.user.img}
-                    alt={`${review.name}'s avatar`}
+                    src={review.user?.img || ""}
+                    alt={`${review.user?.name || "User"}'s avatar`}
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -110,7 +112,7 @@ const ReviewSection: React.FC = () => {
             <div className="mt-4 md:mt-0 md:ml-4 flex-1">
               <div className="flex items-center justify-between">
                 <div className="text-xl font-bold text-primary">
-                  {review.user.name}
+                  {review.user?.name || "Anonymous"}
                 </div>
                 <div className="text-sm text-gray-500">
                   {new Date(review.createdAt).toLocaleDateString()}
@@ -140,7 +142,7 @@ const ReviewSection: React.FC = () => {
       </div>
       <div className="text-center my-5">
         <Link to="/reviews">
-          <button className="text-xl font-bold  text-white bg-primary px-3 lg:px-9 py-2 lg:py-4 hover:bg-hover rounded-md">
+          <button className="text-xl font-bold text-white bg-primary px-3 lg:px-9 py-2 lg:py-4 hover:bg-hover rounded-md">
             See All Reviews
           </button>
         </Link>

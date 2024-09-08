@@ -43,7 +43,9 @@ export type TService = {
 };
 export type TReview = {
   review: string;
-  rating?: number;
+  rating: number;
+  createdAt: string;
+  user: TUser;
 };
 
 export type TSlot = {
@@ -71,4 +73,9 @@ export type TBooking = {
   registrationPlate: string;
   tran_id: string;
   paymentStatus: string;
+};
+
+export type TApiResponse<T> = {
+  data: T[];
+  message: string;
 };

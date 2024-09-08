@@ -1,15 +1,15 @@
-import AdminDashboard from "../pages/DasboardPages/AdminPages/AdminDashboard";
 import CreateSlot from "../pages/DasboardPages/AdminPages/CreateSlot";
 import ServiceManagement from "../pages/DasboardPages/AdminPages/ServiceManagement";
 import SlotManagement from "../pages/DasboardPages/AdminPages/SlotManagement";
 import UserBookings from "../pages/DasboardPages/AdminPages/UserBookings";
 import UserManagement from "../pages/DasboardPages/AdminPages/UserManagement";
+import Dashboard from "../pages/DasboardPages/UserPages/Dashboard";
 
 export const adminPaths = [
   {
     name: "Dashboard",
     path: "dashboard",
-    element: <AdminDashboard />,
+    element: <Dashboard />,
   },
   {
     name: "User Management",

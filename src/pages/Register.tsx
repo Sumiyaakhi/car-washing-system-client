@@ -1,28 +1,49 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { setRegistrationData } from "../redux/features/auth/registerSlice";
+import { Link, useNavigate } from "react-router-dom";
 import { TUser } from "../types";
 import { useSignUpMutation } from "../redux/features/auth/authApi";
+import Swal from "sweetalert2";
+import { registerUser } from "../redux/features/auth/authSlice";
 
 const Registration: React.FC = () => {
   const { handleSubmit, reset, register } = useForm<TUser>();
   const dispatch = useDispatch();
   const [signUp] = useSignUpMutation();
+  const navigate = useNavigate(); // Add navigate for redirection
 
   const onSubmit: SubmitHandler<TUser> = async (data) => {
     try {
       console.log("Registration Data:", data);
 
       // Dispatch the registerUser action to store the data in Redux
-      dispatch(setRegistrationData(data));
+      dispatch(registerUser(data));
       const user = await signUp(data).unwrap();
       console.log("User:", user);
 
+      // Show SweetAlert2 confirmation
+      await Swal.fire({
+        title: "Registration Successful!",
+        text: "You have been registered successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
       // Reset the form fields after submission
       reset();
+
+      // Redirect to the home page
+      navigate("/");
     } catch (error) {
       console.error("Registration failed:", error);
+
+      // Show SweetAlert2 error message
+      Swal.fire({
+        title: "Registration Failed",
+        text: "There was an error registering your account. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -107,6 +128,7 @@ const Registration: React.FC = () => {
               {...register("role", { required: true })}
               className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               defaultValue="user"
+              readOnly
             ></input>
           </div>
 

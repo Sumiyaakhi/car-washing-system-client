@@ -7,7 +7,7 @@ export const reviewApi = baseApi.injectEndpoints({
         url: "/review",
         method: "GET",
       }),
-      // providesTags: ["reviews"],
+      providesTags: ["reviews"],
     }),
 
     createReview: builder.mutation({
